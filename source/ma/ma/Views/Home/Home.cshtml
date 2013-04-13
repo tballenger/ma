@@ -1,0 +1,94 @@
+﻿@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Main.cshtml";
+}
+@section EndOfHead
+{
+     @Styles.Render("~/Content/ma")
+}
+<h2>Home</h2>
+
+
+
+
+
+
+      <hr>
+
+
+      <div class="jumbotron well well-small">
+        <span class="close">X</span>
+        <h1>Whefss asfthletes us23e.</h1>
+        <p class="lead">Muscle Ant gives you deals to awesome fitness products straight from the athletes that use them.</p>
+        <input type="text" class="input-xlarge" placeholder="Enter your email"><a class="btn btn-success" href="#">Sign up today</a>
+      </div>
+
+      <hr>
+
+      <div class="row-fluid marketing">
+        <div class="span9 product">
+          <h3>Don't let your weak wrists stop you from lifing heavy stuff. Check out these Animal Wrist Wraps.</h3>
+          
+          <hr>
+          <p>Pull em tight and get locked in, Animal wrist wraps have arrived. Necessary equipment for power lifters, heavy pressers and veterans of the iron game, these high quality 12" wraps feature heavy duty Velcro fastening, the standard thumb loop and are emblazoned with the traditional Animal logo. A bench day essential, they provide much needed support and stability on your heaviest lifts. With your Animal wrist wraps, you can feel free to throw another pie on the bar.</p>
+          <p><img src="http://placehold.it/500x300.png"></p>
+          <p>Who uses them?</p>
+          <p>Pull em tight and get locked in, Animal wrist wraps have arrived. Necessary equipment for power lifters, heavy pressers and veterans of the iron game, these high quality 12" wraps feature heavy duty Velcro fastening, the standard thumb loop and are emblazoned with the traditional Animal logo. A bench day essential, they provide much needed support and stability on your heaviest lifts. With your Animal wrist wraps, you can feel free to throw another pie on the bar.</p>
+          <p><img src="http://placehold.it/550x400.png"></p>
+          <p><img src="http://placehold.it/300x300.png"></p>
+
+        </div>
+        <div class="span3">
+        <div class="priceblock" data-spy="affix" data-offset-top="400">
+          <span class="endingin"><i class="icon-time"></i>Time left:</span>
+          <div class="countdown">24 hrs, 31 min, 12 sec</div>
+          <button class="btn btn-large btn-warning btn-block" id="customButton">Buy Now &raquo;</button>
+          <div class="sidebar-product-price">
+          <span class="product-price">
+            $35.33
+          </span>
+          <span class="priceblock-line-through">
+            $99.99
+          </span>
+          </div>
+          <div class="fb-like" data-href="http://www.muscleant.com" data-send="false" data-layout="button_count" data-width="150" data-show-faces="false"></div>
+
+          <div class="subscribe-callout">
+            <div class="close">x</div>
+            <p>Sign up for our newsletter to receive awesome stuff in your inbox.</p>
+            <input type="text" class="input-block-level" placeholder="Enter your email"><a class="btn btn-small btn-success" href="#">Sign up today</a>
+          </div>
+        </div>
+        </div>
+
+      </div>
+
+      <hr>
+
+      @section EndOfBody
+      {
+          @Scripts.Render("~/bundles/bootstrap")
+          
+          <script src="https://checkout.stripe.com/v2/checkout.js"></script>
+          
+             <script>
+                 $('#customButton').click(function () {
+                     var token = function (res) {
+                         var $input = $('<input type=hidden name=stripeToken />').val(res.id);
+                         $('form').append($input).submit();
+                     };
+
+                     StripeCheckout.open({
+                         key: 'pk_test_z32sIk0RtbcHfPOgwZiYtEO7',
+                         address: true,
+                         amount: 3533,
+                         name: 'Awesome wrist wraps',
+                         description: '1 - 5" nylon wrist wrap, brand spankin new, shipped to your door',
+                         panelLabel: 'Purchase',
+                         token: token
+                     });
+
+                     return false;
+                 });
+    </script>
+      }
