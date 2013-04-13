@@ -40,7 +40,7 @@ namespace ma
                         "~/Content/themes/base/jquery.ui.progressbar.css",
                         "~/Content/themes/base/jquery.ui.theme.css"));
 
-            bundles.Add(new StyleBundle("~/Content/ma").Include("~/Content/bootstrap.css"));
+            bundles.Add(new StyleBundle("~/Content/ma").Include("~/Content/bootstrap.css","~/Content/Main.css"));
         }
     }
 }
