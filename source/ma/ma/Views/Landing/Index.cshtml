@@ -1,0 +1,38 @@
+﻿@{
+    Layout = "~/Views/Shared/_MainMinimal.cshtml";
+}
+
+@section EndOfHead
+{
+       @Styles.Render("~/Content/ma")
+       
+          <style type="text/css">
+      body {
+        background-color: black;
+        background: url('/img/debut_light.png');
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-attachment: fixed; 
+      }
+      body > .container-narrow > hr{
+        border-top: 1px solid darkgrey;
+        border-bottom: 1px solid darkgrey;
+      }
+      
+      .jumbotron-landing {
+          margin: 20px auto;
+      }
+    </style>  
+}
+
+     <div class="jumbotron-landing">
+        <h1>Shsdfh shefsk sehe</h1>
+        <p class="lead">Muscle Ant gives you deals to awesome fitness products straight from the athletes that use them.</p>
+        <input type="text" class="input-block-level" placeholder="Enter your email"><a class="btn btn-success" href="#" onclick="submit-email"><i class="icon-ok icon-white"></i>Send me sweet stuff!</a>
+        <div class="skip" onclick="skip">Skip for now &raquo;</div>
+      </div>
+
+@section EndOfBody
+{
+    @Scripts.Render("~/bundles/bootstrap")
+}

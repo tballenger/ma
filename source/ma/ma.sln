@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ma", "ma\ma.csproj", "{80CDDFDB-16E1-4A59-8B6F-748CA23110F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ma.Tests", "ma.Tests\ma.Tests.csproj", "{413301C2-3217-4071-8BD6-FA5E3A4C7F69}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80CDDFDB-16E1-4A59-8B6F-748CA23110F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80CDDFDB-16E1-4A59-8B6F-748CA23110F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80CDDFDB-16E1-4A59-8B6F-748CA23110F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80CDDFDB-16E1-4A59-8B6F-748CA23110F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{413301C2-3217-4071-8BD6-FA5E3A4C7F69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{413301C2-3217-4071-8BD6-FA5E3A4C7F69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{413301C2-3217-4071-8BD6-FA5E3A4C7F69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{413301C2-3217-4071-8BD6-FA5E3A4C7F69}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
