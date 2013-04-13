@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>_Main</title>
+    <title>@ViewBag.Title</title>
 
     @Styles.Render("~/Content/ma")
     @RenderSection("EndOfHead",false)
@@ -17,9 +17,9 @@
         <div class="container-narrow">
             <div class="masthead">
                 <ul class="nav nav-pills pull-right">
-                  <li class="active"><a href="#">Today's deal</a></li>
-                  <li><a href="./list.html">Browse all</a></li>
-                  <li><a href="#">Contact Us</a></li>
+                  <li>@Html.ActionLink("Today's Deal","Index","Home")</li>
+                  <li>@Html.ActionLink("Browse All","Index","CrossFit")</li>
+                  <li>@Html.ActionLink("Contact Us","Index","Contact")</li>
                   <li class="dropdown">
                       <a class="dropdown-toggle"
                          data-toggle="dropdown"
@@ -41,6 +41,7 @@
                 <a href="#"></a><div class="muscle-ant-logo">Muscle Ant</div></a>
                 </span>
             </div>
+			      <hr>
             @RenderBody()
             
             
@@ -53,5 +54,13 @@
     </div>
     @Scripts.Render("~/bundles/jquery")
      @RenderSection("EndOfBody",false)
+	<script type="text/javascript">
+		$('.nav li').each(function (i) {
+			if ($(this).find('a').attr('href').indexOf(window.location.pathname) >= 0) {
+				$(this).addClass('active');
+			}
+		});
+
+	</script>
 </body>
 </html>
