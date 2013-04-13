@@ -8,8 +8,9 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>_Main</title>
-    
-    @RenderSection("EndOfHead")
+
+    @Styles.Render("~/Content/ma")
+    @RenderSection("EndOfHead",false)
 </head>
 <body>
     <div>
@@ -51,6 +52,6 @@
         </div>
     </div>
     @Scripts.Render("~/bundles/jquery")
-     @RenderSection("EndOfBody")
+     @RenderSection("EndOfBody",false)
 </body>
 </html>
