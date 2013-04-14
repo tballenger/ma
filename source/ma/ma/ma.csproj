@@ -181,6 +181,9 @@
     <Compile Include="Areas\Account\Models\Account.cs" />
     <Compile Include="Areas\Account\Models\UserProfileService.cs" />
     <Compile Include="Attributes\CurrentUserProfileAttribute.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ContactController.cs" />
+    <Compile Include="Controllers\CrossFitController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LandingController.cs" />
     <Compile Include="Global.asax.cs">
@@ -198,6 +201,7 @@
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Main.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -339,6 +343,10 @@
     <Content Include="Areas\Account\Views\Account\_SetPasswordPartial.cshtml" />
     <Content Include="Areas\Account\Views\Web.config" />
     <Content Include="Areas\Account\Views\_ViewStart.cshtml" />
+    <Content Include="Views\CrossFit\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Contact\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
