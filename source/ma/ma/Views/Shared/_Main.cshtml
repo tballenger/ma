@@ -56,7 +56,7 @@
      @RenderSection("EndOfBody",false)
 	<script type="text/javascript">
 		$('.nav li').each(function (i) {
-			if ($(this).find('a').attr('href').indexOf(window.location.pathname) >= 0) {
+			if ($(this).find('a').attr('href')==window.location.pathname) {
 				$(this).addClass('active');
 			}
 		});
