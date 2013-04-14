@@ -110,6 +110,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Areas\Account\AccountTests.cs" />
     <Compile Include="Models\MongoHQTest.cs" />
     <Compile Include="Models\ProductServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -127,9 +128,7 @@
       <Name>ma</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\Account\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

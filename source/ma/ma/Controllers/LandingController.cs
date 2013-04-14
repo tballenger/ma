@@ -6,7 +6,6 @@ using System.Web.Mvc;
 
 namespace ma.Controllers
 {
-    [Authorize]
     public class LandingController : Controller
     {
         //

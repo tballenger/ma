@@ -7,18 +7,26 @@ using System.Web;
 
 namespace ma.Models.Helpers
 {
-    public class MongoHelper<T> where T : class
+    public class MongoHelper
     {
-        public MongoCollection<T> Collection { get; private set; }
+        public MongoDatabase DB { get; set; }
 
         public MongoHelper()
         {
             var uri = ConfigurationManager.ConnectionStrings["antfarm"].ConnectionString;
 
             var mongoClient = new MongoClient(uri);
-            var db = mongoClient.GetServer().GetDatabase(new MongoUrl(uri).DatabaseName);
-            
-            Collection = db.GetCollection<T>(typeof(T).Name); //Maybe ToLower?
+            DB = mongoClient.GetServer().GetDatabase(new MongoUrl(uri).DatabaseName);
+        }
+    }
+
+    public class MongoHelper<T> : MongoHelper where T : class
+    {
+        public MongoCollection<T> Collection { get; private set; }
+
+        public MongoHelper() : base()
+        {
+            Collection = DB.GetCollection<T>(typeof(T).Name); //Maybe ToLower?
         }
     }
 }
