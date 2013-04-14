@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ma.Mongo;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
+using ma.Models.Helpers;
 
 namespace ma.Models.Products
 {
@@ -22,7 +22,7 @@ namespace ma.Models.Products
 			p.Created = DateTime.Now;
 			p.Updated = DateTime.Now;
 
-			var result = _models.Collection.Save<Product>(p,SafeMode.True);
+			var result = _models.Collection.Save<Product>(p, WriteConcern.Acknowledged);
 
 			return result.Ok;
 		}
