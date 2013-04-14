@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Bson.Serialization.Attributes;
-using ma.Mongo;
 using MongoDB.Driver.Builders;
 using System.Configuration;
 using MongoDB.Driver;
+using ma.Models.Helpers;
 
 namespace ma.Tests.Models
 {

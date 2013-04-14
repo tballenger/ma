@@ -11,22 +11,9 @@ namespace ma
     {
         public static void RegisterAuth()
         {
-            // To let users of this site log in using their accounts from other sites such as Microsoft, Facebook, and Twitter,
-            // you must update this site. For more information visit http://go.microsoft.com/fwlink/?LinkID=252166
-
-            //OAuthWebSecurity.RegisterMicrosoftClient(
-            //    clientId: "",
-            //    clientSecret: "");
-
-            //OAuthWebSecurity.RegisterTwitterClient(
-            //    consumerKey: "",
-            //    consumerSecret: "");
-
-            //OAuthWebSecurity.RegisterFacebookClient(
-            //    appId: "",
-            //    appSecret: "");
-
-            //OAuthWebSecurity.RegisterGoogleClient();
+            OAuthWebSecurity.RegisterFacebookClient(
+                appId: "122416341281934",
+                appSecret: "652f8f3390f0e376f43d73bca00a183b");
         }
     }
 }

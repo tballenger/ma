@@ -1,0 +1,56 @@
+﻿@model ma.Areas.Account.Models.RegisterExternalLoginModel
+@{
+    ViewBag.Title = "Register";
+
+    string pic = String.Empty;
+    string name = String.Empty;
+    
+    if(ViewBag.CurrentUserProfile != null )
+    {
+        pic = ViewBag.CurrentUserProfile.FbPictureLink ?? "nopic";
+        name = ViewBag.CurrentUserProfile.FullName ?? "No Name";
+    }
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>Associate your @ViewBag.ProviderDisplayName account.</h2>
+</hgroup>
+
+@using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl })) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Association Form</legend>
+        <p>
+            You've successfully authenticated with <strong>@ViewBag.ProviderDisplayName</strong>.
+            Please enter a user name for this site below and click the Confirm button to finish
+            logging in.
+        </p>
+        <ol>
+            <li class="picture">
+               <img alt="" src="@pic" />
+            </li>
+            <li class="name">
+                @Html.LabelFor(m => m.UserName)
+                @Html.TextBoxFor(m => m.UserName)
+                @Html.ValidationMessageFor(m => m.UserName)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.FullName)
+                @Html.TextBoxFor(m => m.FullName)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Link)
+                @Html.TextBoxFor(m => m.Link)
+            </li>
+        </ol>
+        @Html.HiddenFor(m => m.ExternalLoginData)
+        <input type="submit" value="Register" />
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

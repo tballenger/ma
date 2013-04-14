@@ -8,13 +8,16 @@ using System.Web.Security;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
-using ma.Filters;
 using ma.Models;
+using MongoDB.Driver;
+using MongoDB.Driver.Builders;
+using ma.Attributes;
+using ma.Areas.Account.Models;
 
-namespace ma.Controllers
+namespace ma.Areas.Account.Controllers
 {
     [Authorize]
-    [InitializeSimpleMembership]
+    [CurrentUserProfile]
     public class AccountController : Controller
     {
         //
@@ -53,8 +56,9 @@ namespace ma.Controllers
         public ActionResult LogOff()
         {
             WebSecurity.Logout();
+            Session.Remove("FbAccessToken");
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { Area = "" });
         }
 
         //
@@ -81,7 +85,7 @@ namespace ma.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home", new { Area = "" });
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -189,9 +193,9 @@ namespace ma.Controllers
                         WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword);
                         return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
-                        ModelState.AddModelError("", e);
+                        ModelState.AddModelError("", String.Format("Unable to create local account. An account with the name \"{0}\" may already exist.", User.Identity.Name));
                     }
                 }
             }
@@ -217,10 +221,34 @@ namespace ma.Controllers
         [AllowAnonymous]
         public ActionResult ExternalLoginCallback(string returnUrl)
         {
+            UserProfile userProfile = new UserProfile();
+
             AuthenticationResult result = OAuthWebSecurity.VerifyAuthentication(Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
+
             if (!result.IsSuccessful)
             {
                 return RedirectToAction("ExternalLoginFailure");
+            }
+
+            if (result.ExtraData.Keys.Contains("accesstoken"))
+            {
+                var cookie = new HttpCookie("ma");
+                cookie.Values["FbAccessToken"] = result.ExtraData["accesstoken"];
+                cookie.Values["FbUserId"] = result.ExtraData["id"];
+                cookie.Values["FbUsername"] = result.ExtraData["username"];
+                cookie.Values["FbName"] = result.ExtraData["name"];
+
+
+                userProfile = new UserProfile
+                {
+                    FullName = result.ExtraData["name"],
+                    Link = result.ExtraData["link"],
+                    FbUserId = result.ExtraData["id"],
+                    FbUsername = result.ExtraData["username"]
+                };
+
+                //drop cookie for returning auth
+                HttpContext.Response.Cookies.Add(cookie);
             }
 
             if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
@@ -230,8 +258,18 @@ namespace ma.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                // If the current user is logged in add the new account
+                // If the current user is logged in add the new account  -- I am kind of against this... maybe everyone shoud just register with facebook.
                 OAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, User.Identity.Name);
+
+                UpdateFacebookRegistrationData(new RegisterExternalLoginModel
+                {
+                    UserName = User.Identity.Name,
+                    FullName = userProfile.FullName,
+                    Link = userProfile.Link,
+                    FbUserId = userProfile.FbUserId,
+                    FbUsername = userProfile.FbUsername
+                });
+
                 return RedirectToLocal(returnUrl);
             }
             else
@@ -240,7 +278,18 @@ namespace ma.Controllers
                 string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
                 ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
                 ViewBag.ReturnUrl = returnUrl;
-                return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { UserName = result.UserName, ExternalLoginData = loginData });
+
+                CurrentUserProfile = userProfile;
+                
+                //returns data from facebook auth process
+                return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { 
+                    UserName = result.UserName, 
+                    ExternalLoginData = loginData,
+                    FullName = userProfile.FullName,
+                    Link = userProfile.Link,
+                    FbUserId = userProfile.FbUserId,
+                    FbUsername = userProfile.FbUsername
+                });
             }
         }
 
@@ -262,32 +311,72 @@ namespace ma.Controllers
 
             if (ModelState.IsValid)
             {
-                // Insert a new user into the database
-                using (UsersContext db = new UsersContext())
-                {
-                    UserProfile user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
-                    // Check if user already exists
-                    if (user == null)
-                    {
-                        // Insert name into the profile table
-                        db.UserProfiles.Add(new UserProfile { UserName = model.UserName });
-                        db.SaveChanges();
+                OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
+                OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
 
-                        OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
-                        OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
 
-                        return RedirectToLocal(returnUrl);
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("UserName", "User name already exists. Please enter a different user name.");
-                    }
-                }
+                var userProfile = UpdateFacebookRegistrationData(model);
+
+                CurrentUserProfile = userProfile;
+
+                return RedirectToLocal(returnUrl);
             }
+
 
             ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(provider).DisplayName;
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
+        }
+
+        public UserProfile CurrentUserProfile
+        {
+            get
+            {
+                return ViewBag.CurrentUserProfile;
+            }
+            set
+            {
+                ViewBag.CurrentUserProfile = value;
+            }
+        }
+
+        private UserProfile UpdateFacebookRegistrationData(RegisterExternalLoginModel model)
+        {
+            bool facebookVerified;
+
+            var token = HttpContext.Request.Cookies["ma"].Values["FbAccessToken"];
+            var client = new Facebook.FacebookClient(token);
+            //var client = new Facebook.FacebookClient(Session["FbAccessToken"].ToString());
+            dynamic response = client.Get("me", new { fields = "verified" });
+            if (response.ContainsKey("verified"))
+            {
+                facebookVerified = response["verified"];
+            }
+            else
+            {
+                facebookVerified = false;
+            }
+
+            //MongoDatabase mongoDB = MongoServer.Create("mongodb://localhost").GetDatabase("devnull_aspnetdb");
+            //var userProfile = mongoDB.GetCollection<UserProfile>("UserProfile").FindOne(Query.EQ("UserName", model.UserName));
+            UserProfileService profiles = new UserProfileService();
+            var userProfile = profiles.GetProfileForUsername(model.UserName);
+
+            if (userProfile != null)
+            {
+                userProfile.FullName = model.FullName;
+                userProfile.Link = model.Link;
+                userProfile.Verified = facebookVerified;
+                //userProfile.FbUserId = Session["FbUserId"].ToString();
+                //userProfile.FbUsername = Session["FbUsername"].ToString();
+                userProfile.FbUserId = HttpContext.Request.Cookies["ma"].Values["FbUserId"];
+                userProfile.FbUsername = HttpContext.Request.Cookies["ma"].Values["FbUsername"];
+
+                // mongoDB.GetCollection<UserProfile>("UserProfile").Save<UserProfile>(userProfile, WriteConcern.Acknowledged);
+                profiles.Save(userProfile);
+            }
+
+            return userProfile;
         }
 
         //
@@ -337,7 +426,7 @@ namespace ma.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home", new { Area = "" });
             }
         }
 

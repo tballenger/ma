@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ma.Providers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +17,8 @@ namespace ma
     {
         protected void Application_Start()
         {
+            MemberAndRoleSeed.Seed();
+
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);

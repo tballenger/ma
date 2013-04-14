@@ -41,6 +41,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Facebook">
+      <HintPath>..\packages\Facebook.6.4.0\lib\net40-client\Facebook.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MongoDB.Bson">
       <HintPath>..\packages\Mongodb.1.7.1.4791\lib\net40\MongoDB.Bson.dll</HintPath>
@@ -173,16 +176,22 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Areas\Account\AccountAreaRegistration.cs" />
+    <Compile Include="Areas\Account\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Account\Models\Account.cs" />
+    <Compile Include="Areas\Account\Models\UserProfileService.cs" />
+    <Compile Include="Attributes\CurrentUserProfileAttribute.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LandingController.cs" />
-    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Mongo\MongoHelper.cs" />
+    <Compile Include="Models\Helpers\IntIdGenerator.cs" />
+    <Compile Include="Models\Helpers\MongoHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\MemberAndRoleSeed.cs" />
+    <Compile Include="Providers\MongoDBSimpleMembershipProvider.cs" />
+    <Compile Include="Providers\MongoDBSimpleRoleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-responsive.css" />
@@ -317,6 +326,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_MainMinimal.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Account\Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Areas\Account\Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Areas\Account\Views\Account\Login.cshtml" />
+    <Content Include="Areas\Account\Views\Account\Manage.cshtml" />
+    <Content Include="Areas\Account\Views\Account\Register.cshtml" />
+    <Content Include="Areas\Account\Views\Account\_ChangePasswordPartial.cshtml" />
+    <Content Include="Areas\Account\Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Areas\Account\Views\Account\_RemoveExternalLoginsPartial.cshtml" />
+    <Content Include="Areas\Account\Views\Account\_SetPasswordPartial.cshtml" />
+    <Content Include="Areas\Account\Views\Web.config" />
+    <Content Include="Areas\Account\Views\_ViewStart.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
