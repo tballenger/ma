@@ -1,11 +1,11 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
-using MongoDB.Driver;
-using System.Configuration;
 
-namespace ma.Mongo
+namespace ma.Models.Helpers
 {
     public class MongoHelper<T> where T : class
     {
@@ -17,7 +17,7 @@ namespace ma.Mongo
 
             var mongoClient = new MongoClient(uri);
             var db = mongoClient.GetServer().GetDatabase(new MongoUrl(uri).DatabaseName);
-
+            
             Collection = db.GetCollection<T>(typeof(T).Name); //Maybe ToLower?
         }
     }
