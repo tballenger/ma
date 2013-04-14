@@ -12,8 +12,8 @@ namespace ma
         public static void RegisterAuth()
         {
             OAuthWebSecurity.RegisterFacebookClient(
-                appId: "122416341281934",
-                appSecret: "652f8f3390f0e376f43d73bca00a183b");
+                appId: "606833272667520",
+                appSecret: "cc79d6378f87b3b7502c35df31716dd0");
         }
     }
 }

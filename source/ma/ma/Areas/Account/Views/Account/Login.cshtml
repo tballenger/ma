@@ -2,30 +2,8 @@
 
 @{
     ViewBag.Title = "Log in";
-    Layout = "";
+    //Layout = "";
 }
-<!DOCTYPE html>
-<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
-<!--[if !IE]><!-->
-<html lang="en">
-<!--<![endif]-->
-
-<head>
-    <meta charset="utf-8" />
-    <title>@ViewBag.Title</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <link href="/Content/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="/Content/css/metro.css" rel="stylesheet" />
-    <link href="/Content/font-awesome/css/font-awesome.css" rel="stylesheet" />
-    <link href="/Content/css/style.css" rel="stylesheet" />
-    <link href="/Content/css/style_responsive.css" rel="stylesheet" />
-    <link href="/Content/css/style_default.css" rel="stylesheet" id="style_color" />
-    <link rel="stylesheet" type="text/css" href="/Content/uniform/css/uniform.default.css" />
-    <link rel="shortcut icon" href="favicon.ico" />
-</head>
-
-<body class="login">
 
     <div class="logo">
         TODO: LOGO BITCHES
@@ -65,19 +43,3 @@
             @Html.Action("ExternalLoginsList", "Account", new { Area = "Account", ReturnUrl = ViewBag.ReturnUrl })
         </div>
     </div>
-    <div class="copyright">
-        2013 &copy; MuscleAnt, Inc.
-    </div>
-
-    <script src="/Content/js/jquery-1.8.3.min.js"></script>
-    <script src="/Content/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/Content/uniform/jquery.uniform.min.js"></script>
-    <script src="/Content/js/jquery.blockui.js"></script>
-    <script src="/Content/js/app.js"></script>
-    <script>
-        jQuery(document).ready(function () {
-            App.initLogin();
-        });
-    </script>
-</body>
-</html>
