@@ -12,14 +12,11 @@ namespace ma.Areas.Account.Models
 
         private readonly MongoHelper<UserProfile> _profiles;
 
-        //MongoDatabase mongoDB = MongoServer.Create("mongodb://localhost").GetDatabase("devnull_aspnetdb");
-        //mongoDB.GetCollection<UserProfile>("UserProfile")
         public UserProfileService()
         {
             _profiles = new MongoHelper<UserProfile>();
         }
 
-        //var userProfile = collection.FindOne(Query.EQ("UserName", model.UserName));
         public UserProfile GetProfileForUsername(string username)
         {
             return _profiles.Collection.FindOne(Query.EQ("UserName", username));
@@ -30,10 +27,14 @@ namespace ma.Areas.Account.Models
             return _profiles.Collection.FindOne(Query.EQ("_id", userId));
         }
 
-        // collection.Save<UserProfile>(userProfile, WriteConcern.Acknowledged);
         public void Save(UserProfile profile)
         {
             _profiles.Collection.Save(profile);
+        }
+
+        public void Remove(int id)
+        {
+            _profiles.Collection.Remove(Query.EQ("_id", id));
         }
     }
 }

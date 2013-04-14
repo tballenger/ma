@@ -19,7 +19,7 @@
                 <div class="controls">
                     <div class="input-icon left">
                         <i class="icon-user"></i>
-                        <input class="m-wrap" type="text" placeholder="Username" />
+                        <input class="m-wrap" id="UserName" name="UserName" type="text" placeholder="Username" />
                         @Html.ValidationMessageFor(m => m.UserName)
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                 <div class="controls">
                     <div class="input-icon left">
                         <i class="icon-lock"></i>
-                        <input class="m-wrap" type="password" style="" placeholder="Password" />
+                        <input class="m-wrap" id="Password" name="Password" type="password" style="" placeholder="Password" />
                         @Html.ValidationMessageFor(m => m.Password)
                     </div>
                 </div>

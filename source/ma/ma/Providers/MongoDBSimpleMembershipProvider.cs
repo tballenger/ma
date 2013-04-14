@@ -64,9 +64,9 @@ namespace ma.Providers
                 cm.IdMemberMap.SetIdGenerator(new IntIdGenerator());
             });
             var userProfile = mongoDB.GetCollection("UserProfile");
-            userProfile.EnsureIndex("UserName");
+            userProfile.EnsureIndex(new IndexKeysBuilder().Ascending("UserName"), IndexOptions.SetUnique(true));
             var webpagesMembership = mongoDB.GetCollection("WebpagesMembership");
-            webpagesMembership.EnsureIndex("UserId");
+            webpagesMembership.EnsureIndex(new IndexKeysBuilder().Ascending("UserId"), IndexOptions.SetUnique(true));
 
             // membership settings
             this.EnablePasswordRetrievalInternal = GetValueOrDefault(config, "enablePasswordRetrieval", Convert.ToBoolean, false);
