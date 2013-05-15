@@ -18,21 +18,113 @@
         border-top: 1px solid darkgrey;
         border-bottom: 1px solid darkgrey;
       }
-      
-      .jumbotron-landing {
-          margin: 20px auto;
-      }
+
+          	.jumbotron-landing
+          	{
+				  background: #f3f2f1;
+				  color:#000000;
+				  float: left;
+          	}
+          	.jumboWrap
+          	{
+				  position:absolute;
+				  width:980px;
+				  margin:0 auto;
+          	}
+          	.video
+          	{
+          		width: 140%;
+          		height: 140%;
+          		
+          		margin-top:-20%;
+				margin-left:-20px;
+          	}
+          	.video-wrap
+          	{
+				  width:100%;
+				  height:100%;
+				  position: absolute;
+				  top:0px;
+				  left:0px;
+				  overflow:hidden;
+          	}
+          	.marketing
+          	{
+				  float:left;
+				  width:500px;
+				  color: #f3f2f1;
+				  margin-left:20px;
+          	}
+          	.marketing h2
+          	{
+				  font-size:4.5em;
+				   line-height:4.5em;
+				    line-height:1em;
+          	}
+          	.marketing ul
+          	{
+				  border-top:1px solid #ffffff;
+				  border-bottom: 1px solid #ffffff;
+				  margin:0px;
+				  padding-top:20px;
+				  padding-bottom:20px;
+          	}
+          	.marketing ul li
+          	{
+				  list-style-type:none;
+				  font-size:2em;
+				  line-height:1.1em;
+          	}
     </style>  
 }
-
-     <div class="jumbotron-landing">
-        <h1>Shsdfh shefsk sehe</h1>
+<div class ="video-wrap">
+	<div class="video">
+	
+</div> 
+</div>
+   
+<div class="jumboWrap">
+	<div style="z-index:100" class="jumbotron-landing">
+        <h1>Muscle Ant</h1>
         <p class="lead">Muscle Ant gives you deals to awesome fitness products straight from the athletes that use them.</p>
         <input type="text" class="input-block-level" placeholder="Enter your email"><a class="btn btn-success" href="#" onclick="submit-email"><i class="icon-ok icon-white"></i>Send me sweet stuff!</a>
         <div class="skip" onclick="skip">Skip for now &raquo;</div>
       </div>
+	<div class="marketing">
+		<h2>Because we're for Fitness</h2>
+		<ul class="feature-list">
+          <li>Find all your favorite gear and more.</li>
+          <li>Share with all your friends.</li>
+          <li>Fitness is Life</li>
+        </ul>
+	</div>
+</div>
+
 
 @section EndOfBody
 {
     @Scripts.Render("~/bundles/bootstrap")
+	<script src="~/Scripts/froogaloop.js"></script>
+	<script>
+			
+			
+
+			
+
+		$(window).load(function () {
+			$('.video').append('<iframe src="http://player.vimeo.com/video/23569694?api=1&autoplay=1&title=0&portrait=0&byline=0&color=000000" width="100%" height="100%" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
+				var iframe = $('.video iframe')[0],
+				player = $f(iframe),
+				status = $('.status');
+
+				// When the player is ready, add listeners for pause, finish, and playProgress
+				player.addEvent('ready', function () {
+
+					player.api('setVolume', 0);
+					setInterval(function () {
+						player.api('seekTo', 1);
+					}, 8000);
+				});
+			});
+	</script>
 }
